@@ -57,9 +57,12 @@ body {
 }
 .container {
   display: flex;
-  flex-direction: column;
   margin: 50px 50px;
-  width: 400px;
+}
+.about {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }
 .logo {
   margin-bottom: 20px;
@@ -78,4 +81,25 @@ body {
 .bio {
   margin-top: 7px;
   color: white;
+}
+.repositories {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: flex-start;
+}
+.btns {
+  color: #58a6ff;
+  border: none;
+  border-bottom: 1px solid gray;
+  background-color: transparent;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.h1-res {
+  opacity: 0;
+  text-align: center;
+  color: white;
+
+  margin-bottom: 10px;
 }
