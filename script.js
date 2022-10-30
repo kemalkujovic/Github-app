@@ -7,6 +7,9 @@ let resLink = null;
 let username = null;
 let resFollower = null;
 let follower = null;
+let closeBtn = document.querySelector("#closeModal");
+let modal = document.querySelector(".custom-modal");
+let modalFollowers = document.getElementById("modalFollowers");
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
 };
@@ -25,12 +28,11 @@ function renderUserName(data) {
   `;
   follower = document.querySelector(".followers");
   about.innerHTML = "";
+
   document.querySelector(".h1-res").style.opacity = "1";
   repositories.innerHTML = "";
   about.insertAdjacentHTML("beforeend", html);
 }
-
-function renderFollower() {}
 
 function renderRepositories(data) {
   // console.log(data);
@@ -89,10 +91,18 @@ function renderFollower(follower) {
     <img class="logo" src="${data.avatar_url}" />
       <h1 class="naziv">${data.login}</h1>
     `;
-      container.insertAdjacentHTML("beforebegin", html);
+      modal.style.display = "flex";
+      modalFollowers.insertAdjacentHTML("beforeend", html);
     });
   });
 }
+
+closeBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  modal.style.display = "none";
+  modalFollowers.innerHTML = "";
+});
+
 // function following() {
 //   url = resData.repos_url;
 //   console.log(url);
