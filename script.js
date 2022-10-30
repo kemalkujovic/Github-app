@@ -2,14 +2,13 @@ let btn = document.querySelector("#btn");
 let container = document.querySelector(".container");
 let repositories = document.querySelector(".repositories");
 let about = document.querySelector(".about");
+let closeBtn = document.querySelector("#closeModal");
+let modal = document.querySelector(".custom-modal");
+let modalFollowers = document.getElementById("modalFollowers");
 let resData = null;
 let resLink = null;
 let username = null;
 let resFollower = null;
-let follower = null;
-let closeBtn = document.querySelector("#closeModal");
-let modal = document.querySelector(".custom-modal");
-let modalFollowers = document.getElementById("modalFollowers");
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
 };
@@ -19,14 +18,13 @@ function renderUserName(data) {
   <img class="logo" src="${data.avatar_url}" />
   <h1 class="naziv">${data.login}</h1>
   <p1 class="bio">${data.bio ? data.bio : "No descrpitons"}</p1>
-  <p1 class="naziv followers">${data.followers} followers - ${
-    data.following
-  } following</p1>
+  <p1 class="naziv followers">Followers: ${data.followers}</p1>
+  <p1 class="following">Following: ${data.following}</p1>
   <p1 class="naziv">Location: ${
     data.location ? data.location : "No location"
   }</p1>
   `;
-  follower = document.querySelector(".followers");
+  let follower = document.querySelector(".followers");
   about.innerHTML = "";
 
   document.querySelector(".h1-res").style.opacity = "1";
@@ -75,12 +73,17 @@ function getUserName() {
       console.log(follower);
       resFollower = follower;
       renderFollower(follower);
+      return fetch(`https://api.github.com/users/${username}/following`);
+    })
+    .then((res) => res.json())
+    .then((following) => {
+      console.log(following);
+      renderFollowing(following);
     })
     .catch((err) => {
       renderErorr(`Something went wrong ${err.message}. Try Again`);
     });
 }
-btn.addEventListener("click", getUserName);
 
 function renderFollower(follower) {
   let followerP = document.querySelector(".followers");
@@ -96,15 +99,24 @@ function renderFollower(follower) {
     });
   });
 }
-
+btn.addEventListener("click", getUserName);
 closeBtn.addEventListener("click", function (e) {
   e.preventDefault();
   modal.style.display = "none";
   modalFollowers.innerHTML = "";
 });
 
-// function following() {
-//   url = resData.repos_url;
-//   console.log(url);
-//   getUserName();
-// }
+function renderFollowing(follower) {
+  let followingP = document.querySelector(".following");
+  followingP.addEventListener("click", function (e) {
+    e.preventDefault();
+    follower.forEach((data) => {
+      let html = `
+    <img class="logo" src="${data.avatar_url}" />
+      <h1 class="naziv">${data.login}</h1>
+    `;
+      modal.style.display = "flex";
+      modalFollowers.insertAdjacentHTML("beforeend", html);
+    });
+  });
+}
