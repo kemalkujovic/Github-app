@@ -74,7 +74,7 @@ body {
   border: 3px solid white;
 }
 .followers:hover {
-  color: blue;
+  color: gray;
 }
 .followers {
   margin-top: 20px;
@@ -145,4 +145,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.following {
+  color: white;
+  margin-bottom: 15px;
+}
+.following:hover {
+  color: gray;
 }
