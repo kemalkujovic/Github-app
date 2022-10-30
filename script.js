@@ -72,18 +72,7 @@ function getUserName() {
     .then((follower) => {
       console.log(follower);
       resFollower = follower;
-      follower.forEach((data) => {});
-      let followerP = document.querySelector(".followers");
-      followerP.addEventListener("click", function (e) {
-        e.preventDefault();
-        follower.forEach((data) => {
-          let html = `
-          <img class="logo" src="${data.avatar_url}" />
-            <h1 class="naziv">${data.login}</h1>
-          `;
-          container.insertAdjacentHTML("beforebegin", html);
-        });
-      });
+      renderFollower(follower);
     })
     .catch((err) => {
       renderErorr(`Something went wrong ${err.message}. Try Again`);
@@ -91,6 +80,19 @@ function getUserName() {
 }
 btn.addEventListener("click", getUserName);
 
+function renderFollower(follower) {
+  let followerP = document.querySelector(".followers");
+  followerP.addEventListener("click", function (e) {
+    e.preventDefault();
+    follower.forEach((data) => {
+      let html = `
+    <img class="logo" src="${data.avatar_url}" />
+      <h1 class="naziv">${data.login}</h1>
+    `;
+      container.insertAdjacentHTML("beforebegin", html);
+    });
+  });
+}
 // function following() {
 //   url = resData.repos_url;
 //   console.log(url);
