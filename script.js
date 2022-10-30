@@ -12,9 +12,9 @@ const renderErorr = function (poruka) {
 function renderUserName(data) {
   let html = `
   <img class="logo" src="${data.avatar_url}" />
-  <h1 class="naziv">${data.name}</h1>
+  <h1 class="naziv">${data.login}</h1>
   <p1 class="bio">${data.bio ? data.bio : "No descrpitons"}</p1>
-  <p1 onclick="following()" class="naziv followers">${
+  <p1 onclick="renderFollower()" class="naziv followers">${
     data.followers
   } followers - ${data.following} following</p1>
   <p1 class="naziv">Location: ${
@@ -22,6 +22,7 @@ function renderUserName(data) {
   }</p1>
   `;
   about.innerHTML = "";
+  document.querySelector(".h1-res").style.opacity = "1";
   repositories.innerHTML = "";
   about.insertAdjacentHTML("beforeend", html);
 }
@@ -31,6 +32,7 @@ function renderRepositories(data) {
   let html = `
   <button class ="btns">${data.name}</button>
   `;
+
   repositories.insertAdjacentHTML("beforeend", html);
 
   repositories.addEventListener("click", (e) => {
@@ -40,6 +42,7 @@ function renderRepositories(data) {
     }
   });
 }
+function renderFollower(follower) {}
 
 function getUserName() {
   username = document.querySelector("#sreach").value;
@@ -49,6 +52,7 @@ function getUserName() {
     .then((response) => response.json())
     .then((data) => {
       resData = data;
+      console.log(resData);
       renderUserName(data);
       return fetch(`https://api.github.com/users/${username}/repos`);
     })
@@ -56,8 +60,16 @@ function getUserName() {
     .then((data) => {
       data.forEach((link) => {
         resLink = link;
-        // console.log(resLink.html_url);
+        console.log(resLink);
         renderRepositories(link);
+      });
+
+      return fetch(`https://api.github.com/users/${username}/followers`);
+    })
+    .then((res) => res.json())
+    .then((follower) => {
+      follower.forEach((data) => {
+        renderFollower(data);
       });
     })
     .catch((err) => {

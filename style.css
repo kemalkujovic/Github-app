@@ -64,6 +64,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 30%;
+  transition: 1s;
 }
 .logo {
   margin-bottom: 20px;
@@ -84,9 +85,9 @@ body {
   color: white;
 }
 .repositories {
+  transition: 1s;
   display: flex;
   flex-direction: column;
-  width: 50%;
   justify-content: flex-start;
 }
 .btns {
@@ -96,11 +97,18 @@ body {
   background-color: transparent;
   margin-bottom: 10px;
   cursor: pointer;
+  font-size: 17px;
 }
 .h1-res {
   opacity: 0;
   text-align: center;
   color: white;
-
+  transition: 1s;
   margin-bottom: 10px;
+}
+.naslov {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  margin-left: 50px;
 }
