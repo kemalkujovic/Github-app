@@ -5,6 +5,8 @@ let about = document.querySelector(".about");
 let resData = null;
 let resLink = null;
 let username = null;
+let resFollower = null;
+let follower = null;
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
 };
@@ -14,18 +16,21 @@ function renderUserName(data) {
   <img class="logo" src="${data.avatar_url}" />
   <h1 class="naziv">${data.login}</h1>
   <p1 class="bio">${data.bio ? data.bio : "No descrpitons"}</p1>
-  <p1 onclick="renderFollower()" class="naziv followers">${
-    data.followers
-  } followers - ${data.following} following</p1>
+  <p1 class="naziv followers">${data.followers} followers - ${
+    data.following
+  } following</p1>
   <p1 class="naziv">Location: ${
     data.location ? data.location : "No location"
   }</p1>
   `;
+  follower = document.querySelector(".followers");
   about.innerHTML = "";
   document.querySelector(".h1-res").style.opacity = "1";
   repositories.innerHTML = "";
   about.insertAdjacentHTML("beforeend", html);
 }
+
+function renderFollower() {}
 
 function renderRepositories(data) {
   // console.log(data);
@@ -42,7 +47,6 @@ function renderRepositories(data) {
     }
   });
 }
-function renderFollower(follower) {}
 
 function getUserName() {
   username = document.querySelector("#sreach").value;
@@ -52,7 +56,6 @@ function getUserName() {
     .then((response) => response.json())
     .then((data) => {
       resData = data;
-      console.log(resData);
       renderUserName(data);
       return fetch(`https://api.github.com/users/${username}/repos`);
     })
@@ -60,7 +63,6 @@ function getUserName() {
     .then((data) => {
       data.forEach((link) => {
         resLink = link;
-        console.log(resLink);
         renderRepositories(link);
       });
 
@@ -68,8 +70,19 @@ function getUserName() {
     })
     .then((res) => res.json())
     .then((follower) => {
-      follower.forEach((data) => {
-        renderFollower(data);
+      console.log(follower);
+      resFollower = follower;
+      follower.forEach((data) => {});
+      let followerP = document.querySelector(".followers");
+      followerP.addEventListener("click", function (e) {
+        e.preventDefault();
+        follower.forEach((data) => {
+          let html = `
+          <img class="logo" src="${data.avatar_url}" />
+            <h1 class="naziv">${data.login}</h1>
+          `;
+          container.insertAdjacentHTML("beforebegin", html);
+        });
       });
     })
     .catch((err) => {
