@@ -4,6 +4,7 @@ let repositories = document.querySelector(".repositories");
 let about = document.querySelector(".about");
 let resData = null;
 let resLink = null;
+let username = null;
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
 };
@@ -26,23 +27,22 @@ function renderUserName(data) {
 }
 
 function renderRepositories(data) {
-  console.log(data);
+  // console.log(data);
   let html = `
   <button class ="btns">${data.name}</button>
   `;
-
-  document.querySelectorAll(".btns").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      // https://github.com/username/${data.name}
-      window.location = `https://github.com/username/${data.name}`;
-    });
-  });
   repositories.insertAdjacentHTML("beforeend", html);
+
+  repositories.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.classList.contains("btns")) {
+      window.location = `https://github.com/${username}/${e.target.innerText}`;
+    }
+  });
 }
 
 function getUserName() {
-  let username = document.querySelector("#sreach").value;
+  username = document.querySelector("#sreach").value;
   let url = "https://api.github.com/users/" + username;
 
   fetch(url)
@@ -56,8 +56,8 @@ function getUserName() {
     .then((data) => {
       data.forEach((link) => {
         resLink = link;
+        // console.log(resLink.html_url);
         renderRepositories(link);
-        console.log(link);
       });
     })
     .catch((err) => {
