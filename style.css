@@ -98,6 +98,8 @@ body {
   margin-bottom: 10px;
   cursor: pointer;
   font-size: 17px;
+  width: 100%;
+  text-align: start;
 }
 .h1-res {
   opacity: 0;

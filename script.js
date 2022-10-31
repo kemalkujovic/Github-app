@@ -5,10 +5,11 @@ let about = document.querySelector(".about");
 let closeBtn = document.querySelector("#closeModal");
 let modal = document.querySelector(".custom-modal");
 let modalFollowers = document.getElementById("modalFollowers");
-let resData = null;
-let resLink = null;
-let username = null;
-let resFollower = null;
+let resData,
+  resLink,
+  username,
+  resFollower = null;
+
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
 };
@@ -33,7 +34,6 @@ function renderUserName(data) {
 }
 
 function renderRepositories(data) {
-  // console.log(data);
   let html = `
   <button class ="btns">${data.name}</button>
   `;
@@ -62,6 +62,7 @@ function getUserName() {
     .then((res) => res.json())
     .then((data) => {
       data.forEach((link) => {
+        console.log(link);
         resLink = link;
         renderRepositories(link);
       });
@@ -70,14 +71,12 @@ function getUserName() {
     })
     .then((res) => res.json())
     .then((follower) => {
-      console.log(follower);
       resFollower = follower;
       renderFollower(follower);
       return fetch(`https://api.github.com/users/${username}/following`);
     })
     .then((res) => res.json())
     .then((following) => {
-      console.log(following);
       renderFollowing(following);
     })
     .catch((err) => {
@@ -99,12 +98,6 @@ function renderFollower(follower) {
     });
   });
 }
-btn.addEventListener("click", getUserName);
-closeBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  modal.style.display = "none";
-  modalFollowers.innerHTML = "";
-});
 
 function renderFollowing(follower) {
   let followingP = document.querySelector(".following");
@@ -120,3 +113,9 @@ function renderFollowing(follower) {
     });
   });
 }
+btn.addEventListener("click", getUserName);
+closeBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  modal.style.display = "none";
+  modalFollowers.innerHTML = "";
+});
