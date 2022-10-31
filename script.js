@@ -80,6 +80,7 @@ function getUserName() {
     .then((res) => res.json())
     .then((following) => {
       renderFollowing(following);
+      console.log(following);
     })
     .catch((err) => {
       renderErorr(`Something went wrong ${err.message}. Try Again`);
