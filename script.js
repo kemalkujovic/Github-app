@@ -35,7 +35,9 @@ function renderUserName(data) {
 
 function renderRepositories(data) {
   let html = `
-  <button class ="btns">${data.name}</button>
+  <p class="language">Language: ${data.language}</p>
+  <button class ="btns">${data.name}
+  </button>
   `;
 
   repositories.insertAdjacentHTML("beforeend", html);

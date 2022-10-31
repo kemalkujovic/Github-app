@@ -88,7 +88,7 @@ body {
   transition: 1s;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: flex-end;
 }
 .btns {
   color: #58a6ff;
@@ -97,9 +97,11 @@ body {
   background-color: transparent;
   margin-bottom: 10px;
   cursor: pointer;
-  font-size: 17px;
+  font-size: 20px;
   width: 100%;
   text-align: start;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
 }
 .h1-res {
   opacity: 0;
@@ -154,4 +156,8 @@ body {
 }
 .following:hover {
   color: gray;
+}
+.language {
+  color: #58a6ff;
+  margin-bottom: 10px;
 }
