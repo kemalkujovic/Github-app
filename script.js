@@ -5,10 +5,30 @@ let about = document.querySelector(".about");
 let closeBtn = document.querySelector("#closeModal");
 let modal = document.querySelector(".custom-modal");
 let modalFollowers = document.getElementById("modalFollowers");
-let resData,
-  resLink,
-  username,
-  resFollower = null;
+let username = null;
+
+async function getUserName() {
+  username = document.querySelector("#sreach").value;
+  let url = "https://api.github.com/users/" + username;
+  try {
+    const resUser = await axios.get(url);
+    const resLink = await axios.get(
+      `https://api.github.com/users/${username}/repos`
+    );
+    const resFollower = await axios.get(
+      `https://api.github.com/users/${username}/followers`
+    );
+    const resFollowing = await axios.get(
+      `https://api.github.com/users/${username}/following`
+    );
+    renderUserName(resUser.data);
+    renderRepositories(resLink.data);
+    renderFollower(resFollower.data);
+    renderFollowing(resFollowing.data);
+  } catch (error) {
+    renderErorr(`Something went wrong ${error.message}. Try Again`);
+  }
+}
 
 const renderErorr = function (poruka) {
   container.insertAdjacentText("beforeend", poruka);
@@ -34,13 +54,14 @@ function renderUserName(data) {
 }
 
 function renderRepositories(data) {
-  let html = `
-  <p class="language">Language: ${data.language}</p>
-  <button class ="btns">${data.name}
+  data.forEach((el) => {
+    let html = `
+  <p class="language">Language: ${el.language}</p>
+  <button class ="btns">${el.name}
   </button>
   `;
-
-  repositories.insertAdjacentHTML("beforeend", html);
+    repositories.insertAdjacentHTML("beforeend", html);
+  });
 
   repositories.addEventListener("click", (e) => {
     e.preventDefault();
@@ -48,43 +69,6 @@ function renderRepositories(data) {
       window.location = `https://github.com/${username}/${e.target.innerText}`;
     }
   });
-}
-
-function getUserName() {
-  username = document.querySelector("#sreach").value;
-  let url = "https://api.github.com/users/" + username;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      resData = data;
-      renderUserName(data);
-      return fetch(`https://api.github.com/users/${username}/repos`);
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      data.forEach((link) => {
-        console.log(link);
-        resLink = link;
-        renderRepositories(link);
-      });
-
-      return fetch(`https://api.github.com/users/${username}/followers`);
-    })
-    .then((res) => res.json())
-    .then((follower) => {
-      resFollower = follower;
-      renderFollower(follower);
-      return fetch(`https://api.github.com/users/${username}/following`);
-    })
-    .then((res) => res.json())
-    .then((following) => {
-      renderFollowing(following);
-      console.log(following);
-    })
-    .catch((err) => {
-      renderErorr(`Something went wrong ${err.message}. Try Again`);
-    });
 }
 
 function renderFollower(follower) {
